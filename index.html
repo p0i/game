@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<head>
+    <title>ぽい！</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="keywords" content="poi,夕立">
+    <meta name="description" content="台灣poipoi協會">
+    <link rel="Shortcut Icon" type="image/x-icon" href="poi.ico">
+    <style type="text/css">
+        @import url(http://fonts.googleapis.com/earlyaccess/notosanstc.css);
+        body{
+            overflow: hidden;
+            margin: 0;
+        }
+        #poi-bg{
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            object-fit: cover;
+        }
+        #main-poi-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0,0,0,.4);
+        }
+        #main-poi {
+            user-select: none;
+            font-family: 'Noto Sans TC', sans-serif;
+            font-size: 8cm;
+            font-weight: bold;
+            animation: shine 1s infinite;
+            color: white;
+        }
+        #page-1 {
+            width: 100%;
+            height: 100vh;
+        }
+        .fill {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 第一頁 -->
+    <div id="page-1">
+        <!-- 背景 -->
+        <iframe
+            id="poi-bg"
+            type="text/html"
+            src="https://www.youtube.com/embed/mDKT7x53AX8?wmode=transparent&amp;autoplay=1&amp;controls=0&amp;disablekb=1&amp;showinfo=0"
+            frameborder="0"></iframe>
+        <!--video autoplay loop id="poi-bg">
+            <source src="https://7b8deb53e3cf92a6ef574c874437aae769d41ea5.googledrive.com/host/0B_XqMdq6WYC-UnoxRW9mY243b2M" type="video/mp4">
+            ぽい不喜歡你 嫩 滾啦
+        </video-->
+        <!-- 其他咚咚? -->
+        <div id="main-poi-container" class="fill">
+            <p id="main-poi">ぽい！</p>
+        </div>
+        
+        <div id="game" class="fill"></div>
+        <script src="//cdn.jsdelivr.net/phaser/2.4.6/phaser.js"></script>
+        <script src="game.js"></script>
+    </div>
+</body>
+</html>
