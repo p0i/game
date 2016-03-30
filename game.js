@@ -7,11 +7,16 @@ var game = new Phaser.Game('100', '100', Phaser.AUTO, 'game', {
 }, true);
 
 function preload() {
+    game.load.audio('party', 'party.mp3');
+
     game.load.image('poi', 'poi.gif');
     game.load.image('snail', 'snail.gif');
+
+    game.load.image('party', 'party.jpg');   
 }
 
 var jump;
+var party;
 
 var cursors;
 
@@ -36,6 +41,8 @@ function create() {
     poi.rotation = Math.PI * 0.1;
     swing = game.add.tween(poi)
         .to({ rotation: Math.PI * -0.1 }, 500, Phaser.Easing.Quadratic.InOut, true, 0, -1, true);
+
+    party.init();
 }
 
 function update() {
@@ -91,4 +98,45 @@ function down() {
 
 function isOnGround() {
     return poi.body.y == game.world.height - poi.body.height;
+}
+
+party = {
+    DURATION: 1000,
+    started: false,
+    init: function() {
+        this.image = game.add.sprite(game.width / 2, game.height / 2, 'party');
+        this.image.anchor.set(0.5);
+        this.image.visible = false;
+
+        this.fadeIn = game.add.tween(this.image)
+            .to({ alpha: 1 }, 200);
+
+        this.sound = game.add.sound('party');
+        this.sound.onStop.add(function() {
+            this.image.visible = false;
+            game.physics.arcade.isPaused = false;
+            this.started = false;
+        }, this);
+
+        game.input.keyboard.addKey(Phaser.Keyboard.ENTER).onDown.add(this.start, this);
+    },
+    start: function() {
+        if (this.started) return;
+
+        this.started = true;
+
+        game.physics.arcade.isPaused = true;
+
+        var texture = this.image.texture;
+        var scale = Math.max(
+                game.width / texture.width,
+                game.height / texture.height);
+        this.image.scale.set(scale);
+        this.image.bringToTop();
+        this.image.alpha = 0;
+        this.fadeIn.start();
+        this.image.visible = true;
+
+        this.sound.play();
+    }
 }
