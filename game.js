@@ -11,6 +11,8 @@ function preload() {
     game.load.image('snail', 'snail.gif');
 }
 
+var jump;
+
 var cursors;
 
 var poi;
@@ -18,7 +20,8 @@ var rotation;
 
 function create() {
     cursors = game.input.keyboard.createCursorKeys();
-    cursors.up.onDown.add(jump);
+    cursors.up.onDown.add(jump.do.bind(jump));
+    cursors.down.onDown.add(down);
 
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
@@ -47,28 +50,47 @@ function update() {
         poi.body.velocity.x = 200;
     }
 
-    /* 在地上 */
-    if (poi.body.y == game.world.height - poi.body.height) {
-        jumpCount = 0;
+    if (isOnGround()) jump.reset();
+}
+
+jump = {
+    MAX_JUMP: 2,
+    count: 0,
+    startRotation: function() {
+        rotation.pause();
+        poi.body.angularVelocity = 10000;
+        poi.body.velocity.y = -1000;        
+    },
+    stopRotation: function() {
         poi.body.angularVelocity = 0;
-        rotation.resume();
+        rotation.resume();    
+    },
+    do: function() {
+        if (this.count >= this.MAX_JUMP) return;
+
+        poi.body.velocity.y = -1000;
+        
+        if (this.count !== 0) this.startRotation();
+
+        ++this.count;            
+    },
+    reset() {
+        if (this.count !== 0) {
+            this.count = 0;
+            poi.body.velocity.y = 0;
+            this.stopRotation();
+        }
+    }
+};
+
+function down() {
+    var MIN_SPEED = 800;
+    if (!isOnGround() && poi.body.velocity.y < MIN_SPEED) {
+        jump.stopRotation();
+        poi.body.velocity.y = MIN_SPEED;
     }
 }
 
-function jump() {
-    var MAX_JUMP = 2;
-
-    if (jumpCount >= MAX_JUMP) return;
-
-    poi.body.velocity.y = -1000;
-    
-    /* 多段跳 */
-    if (jumpCount !== 0) {
-        rotation.pause();
-        poi.body.angularVelocity = 10000;
-        poi.body.velocity.y = -1000;
-    
-    }
-
-    ++jumpCount;
+function isOnGround() {
+    return poi.body.y == game.world.height - poi.body.height;
 }
