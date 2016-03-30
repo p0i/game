@@ -38,7 +38,6 @@ function create() {
         .to({ rotation: Math.PI * -0.1 }, 500, Phaser.Easing.Quadratic.InOut, true, 0, -1, true);
 }
 
-var jumpCount;
 function update() {
     if (!cursors.left.isDown && !cursors.right.isDown) {
         poi.body.velocity.x = 0;    
