@@ -21,7 +21,7 @@ function create() {
 
     game.physics.arcade.enable(poi);
 
-    poi.body.gravity.y = 500;
+    poi.body.gravity.y = 1685;
     poi.body.collideWorldBounds = true;
 
     poi.anchor.setTo(0.5, 0.5);
@@ -46,6 +46,6 @@ function update() {
     }
     if (cursors.up.isDown &&
         poi.body.y == game.world.height - poi.body.height) {
-        poi.body.velocity.y = -300;
+        poi.body.velocity.y = -1000;
     }
 }
