@@ -50,10 +50,10 @@ function update() {
         poi.body.velocity.x = 0;    
     }
     if (cursors.left.isDown) {
-        poi.body.velocity.x = -200;
+        poi.body.velocity.x = -500;
     }
     if (cursors.right.isDown) {
-        poi.body.velocity.x = 200;
+        poi.body.velocity.x = 500;
     }
     if (isOnGround()) jump.reset();
 }
