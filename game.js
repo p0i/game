@@ -97,7 +97,7 @@ function down() {
 }
 
 function isOnGround() {
-    return poi.body.y == game.world.height - poi.body.height;
+    return poi.body.bottom === game.world.height;
 }
 
 party = {
